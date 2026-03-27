@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             splitContainer1 = new SplitContainer();
+            txtCodBarras = new TextBox();
+            label2 = new Label();
             menuStrip1 = new MenuStrip();
             revisarToolStripMenuItem = new ToolStripMenuItem();
             alumnosToolStripMenuItem = new ToolStripMenuItem();
@@ -62,6 +64,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            splitContainer1.Panel1.Controls.Add(txtCodBarras);
+            splitContainer1.Panel1.Controls.Add(label2);
             splitContainer1.Panel1.Controls.Add(menuStrip1);
             splitContainer1.Panel1.Controls.Add(btnGuardar);
             splitContainer1.Panel1.Controls.Add(dtpFecha);
@@ -70,9 +74,27 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(dgvAsistencia);
-            splitContainer1.Size = new Size(768, 381);
+            splitContainer1.Size = new Size(824, 381);
             splitContainer1.SplitterDistance = 84;
             splitContainer1.TabIndex = 0;
+            // 
+            // txtCodBarras
+            // 
+            txtCodBarras.Location = new Point(430, 40);
+            txtCodBarras.Name = "txtCodBarras";
+            txtCodBarras.PlaceholderText = "No.Control o Escanea";
+            txtCodBarras.Size = new Size(178, 27);
+            txtCodBarras.TabIndex = 7;
+            txtCodBarras.KeyDown += txtCodBarras_KeyDown;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(340, 40);
+            label2.Name = "label2";
+            label2.Size = new Size(84, 20);
+            label2.TabIndex = 6;
+            label2.Text = "Cod Barras:";
             // 
             // menuStrip1
             // 
@@ -80,7 +102,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { revisarToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(768, 28);
+            menuStrip1.Size = new Size(824, 28);
             menuStrip1.TabIndex = 5;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -88,8 +110,8 @@
             // 
             revisarToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { alumnosToolStripMenuItem, MenuPrincipalToolStripMenuItem, hIstorialToolStripMenuItem });
             revisarToolStripMenuItem.Name = "revisarToolStripMenuItem";
-            revisarToolStripMenuItem.Size = new Size(70, 24);
-            revisarToolStripMenuItem.Text = "Revisar";
+            revisarToolStripMenuItem.Size = new Size(85, 24);
+            revisarToolStripMenuItem.Text = "Consultar";
             // 
             // alumnosToolStripMenuItem
             // 
@@ -114,7 +136,7 @@
             // 
             // btnGuardar
             // 
-            btnGuardar.Location = new Point(535, 26);
+            btnGuardar.Location = new Point(625, 36);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(187, 29);
             btnGuardar.TabIndex = 4;
@@ -124,7 +146,7 @@
             // 
             // dtpFecha
             // 
-            dtpFecha.Location = new Point(125, 23);
+            dtpFecha.Location = new Point(68, 35);
             dtpFecha.Name = "dtpFecha";
             dtpFecha.Size = new Size(250, 27);
             dtpFecha.TabIndex = 3;
@@ -132,7 +154,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(69, 28);
+            label1.Location = new Point(12, 35);
             label1.Name = "label1";
             label1.Size = new Size(50, 20);
             label1.TabIndex = 2;
@@ -147,8 +169,10 @@
             dgvAsistencia.Location = new Point(0, 0);
             dgvAsistencia.Name = "dgvAsistencia";
             dgvAsistencia.RowHeadersWidth = 51;
-            dgvAsistencia.Size = new Size(768, 293);
+            dgvAsistencia.Size = new Size(824, 293);
             dgvAsistencia.TabIndex = 0;
+            dgvAsistencia.CellValueChanged += dgvAsistencia_CellValueChanged;
+            dgvAsistencia.CurrentCellDirtyStateChanged += dgvAsistencia_CurrentCellDirtyStateChanged;
             // 
             // coluID
             // 
@@ -198,7 +222,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(768, 381);
+            ClientSize = new Size(824, 381);
             Controls.Add(splitContainer1);
             Name = "frmAsistencia";
             Text = "frmAsistencia";
@@ -233,5 +257,7 @@
         private DataGridViewTextBoxColumn colNc;
         private DataGridViewTextBoxColumn colSemestre;
         private DataGridViewCheckBoxColumn colPresente;
+        private TextBox txtCodBarras;
+        private Label label2;
     }
 }

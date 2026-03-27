@@ -41,8 +41,6 @@
             AsistenciaToolStripMenuItem = new ToolStripMenuItem();
             MenuPrincipalToolStripMenuItem = new ToolStripMenuItem();
             historialToolStripMenuItem = new ToolStripMenuItem();
-            opcionesToolStripMenuItem = new ToolStripMenuItem();
-            salirToolStripMenuItem = new ToolStripMenuItem();
             dgvAlumnos = new DataGridView();
             cmsAlumnos = new ContextMenuStrip(components);
             eliminarToolStripMenuItem = new ToolStripMenuItem();
@@ -143,7 +141,7 @@
             // menuStrip1
             // 
             menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { revisarToolStripMenuItem, opcionesToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { revisarToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(961, 28);
@@ -177,19 +175,6 @@
             historialToolStripMenuItem.Size = new Size(224, 26);
             historialToolStripMenuItem.Text = "Historial";
             historialToolStripMenuItem.Click += historialToolStripMenuItem_Click;
-            // 
-            // opcionesToolStripMenuItem
-            // 
-            opcionesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { salirToolStripMenuItem });
-            opcionesToolStripMenuItem.Name = "opcionesToolStripMenuItem";
-            opcionesToolStripMenuItem.Size = new Size(85, 24);
-            opcionesToolStripMenuItem.Text = "Opciones";
-            // 
-            // salirToolStripMenuItem
-            // 
-            salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            salirToolStripMenuItem.Size = new Size(121, 26);
-            salirToolStripMenuItem.Text = "Salir";
             // 
             // dgvAlumnos
             // 
@@ -267,8 +252,6 @@
         private ToolStripMenuItem revisarToolStripMenuItem;
         private ToolStripMenuItem AsistenciaToolStripMenuItem;
         private ToolStripMenuItem MenuPrincipalToolStripMenuItem;
-        private ToolStripMenuItem opcionesToolStripMenuItem;
-        private ToolStripMenuItem salirToolStripMenuItem;
         private ToolStripMenuItem historialToolStripMenuItem;
         private Label label2;
         private ComboBox cbBuscarPor;

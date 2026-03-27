@@ -25,25 +25,43 @@ namespace Asistencias
 
         private void CargarAlumnos()
         {
-            dgvAsistencia.Rows.Clear();
+            // Guarda los ID que ya estaban marcados como presentes
+            List<int> presentes = new List<int>();
+            foreach (DataGridViewRow row in dgvAsistencia.Rows)
+            {
+                if (row.IsNewRow) continue;
+                if (Convert.ToBoolean(row.Cells["colPresente"].Value))
+                {
+                    presentes.Add(Convert.ToInt32(row.Cells["coluID"].Value));
+                }
+            }
 
+
+            dgvAsistencia.Rows.Clear();
             ConxDatos datos = new ConxDatos();
             DataSet ds = datos.ejecutar(
-                "SELECT id, nombre,apellidoPat, apellidoMat, Ncontrol, semestre FROM alumnos ORDER BY apellidoPat");
+                "SELECT id, nombre, apellidoPat, apellidoMat, Ncontrol, semestre FROM alumnos ORDER BY apellidoPat");
 
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow row in ds.Tables[0].Rows)
                 {
-                    dgvAsistencia.Rows.Add(
-                        row["id"],
+                    int id = Convert.ToInt32(row["id"]);
+                    bool estabaPresente = presentes.Contains(id);
+
+                    int indice = dgvAsistencia.Rows.Add(
+                        id,
                         row["nombre"],
                         row["apellidoPat"],
                         row["apellidoMat"],
                         row["Ncontrol"],
                         row["semestre"],
-                        false
+                        estabaPresente
                     );
+
+
+                    if (estabaPresente)
+                        dgvAsistencia.Rows[indice].DefaultCellStyle.BackColor = Color.LightGreen;
                 }
             }
         }
@@ -103,7 +121,7 @@ namespace Asistencias
 
         private void MenuPrincipalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           frmMenuPrincipal menu= new frmMenuPrincipal();
+            frmMenuPrincipal menu = new frmMenuPrincipal();
             menu.Show();
             this.Close();
         }
@@ -113,6 +131,70 @@ namespace Asistencias
             frmHistorial h = new frmHistorial();
             h.Show();
             this.Close();
+        }
+
+        private void txtCodBarras_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                string nControl = txtCodBarras.Text.Trim();
+
+                if (string.IsNullOrEmpty(nControl))
+                {
+                    e.SuppressKeyPress = true;
+                    return;
+                }
+
+                bool encontrado = false;
+
+                foreach (DataGridViewRow row in dgvAsistencia.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    string ncGrid = row.Cells["colNc"].Value?.ToString().Trim();
+
+                    if (ncGrid == nControl)
+                    {
+                        row.Cells["colPresente"].Value = true;
+                        row.DefaultCellStyle.BackColor = Color.LightGreen;
+                        encontrado = true;
+                        break;
+                    }
+                }
+
+                if (encontrado)
+                    MessageBox.Show($"Asistencia registrada correctamente.",
+                        "Sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show($"No se encontró alumno con No. Control: {nControl}",
+                        "Sistema", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                txtCodBarras.Clear();
+                txtCodBarras.Focus();
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void dgvAsistencia_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            //Cambia de color el renglon del checkbox segun su estado
+            if (e.RowIndex < 0) return;
+
+            DataGridViewRow row = dgvAsistencia.Rows[e.RowIndex];
+
+            bool presente = Convert.ToBoolean(row.Cells["colPresente"].Value);
+
+            if (presente)
+                row.DefaultCellStyle.BackColor = Color.LightGreen;
+            else
+                row.DefaultCellStyle.BackColor = Color.White;
+        }
+
+        private void dgvAsistencia_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            //Ayuda a hacer mas fluido el cambio de color en los checkbox
+            if (dgvAsistencia.IsCurrentCellDirty)
+                dgvAsistencia.CommitEdit(DataGridViewDataErrorContexts.Commit);
         }
     }
 }
